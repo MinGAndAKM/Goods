@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  #debug模式
+  profiles:
+    active: dev
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    mode: LEGACYHTML5
+    cache: false
+
+  #文件上传相关设置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+
+  #devtools插件
+  devtools:
+    livereload:
+      enabled: true #是否支持livereload
+      port: 35729
+    restart:
+      enabled: true #是否支持热部署
+
+  #spring-aop配置
+  aop:
+    #启用@Aspectj注解驱动的切面，允许Spring创建基于类的代理
+    auto: true
+    proxy-target-class: true
+
+#mybatis分页插件pagehelper设置
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
