@@ -5,7 +5,7 @@
     <title>商品列表</title>
     <link rel="stylesheet" th:href="@{../../lib/element-ui/lib/theme-chalk/index.css}"/>
     <link rel="stylesheet" th:href="@{../../lib/font/css/font-awesome.min.css}"/>
-    <link rel="stylesheet" th:href="@{../../css/goods.css}"/>
+    <link rel="stylesheet" th:href="@{../../css/commodity.css}"/>
     <link rel="stylesheet" th:href="@{../../css/public.css}"/>
 </head>
 <body>
@@ -14,7 +14,7 @@
     <el-menu mode="horizontal" :default-active="activeIndex">
         <el-menu-item index="0" id="logo">Spring Boot商城</el-menu-item>
         <el-menu-item index="1"><a href="/index">首页</a></el-menu-item>
-        <el-menu-item index="2"><a href="/goods">商品列表</a></el-menu-item>
+        <el-menu-item index="2"><a href="/commodity">商品列表</a></el-menu-item>
         <el-menu-item id="author" index="3">
             <img class="el-tooltip" src="http://tycoding.cn/author/avatar.png"/>
             <el-dropdown>
@@ -33,10 +33,10 @@
                 <!-- 搜索框 -->
                 <el-form :inline="true" :model="searchEntity" class="demo-form-inline">
                     <el-form-item label="品牌">
-                        <el-input v-model="searchEntity.brand" placeholder="品牌"></el-input>
+                        <el-input v-model="searchEntity.brandName" placeholder="品牌"></el-input>
                     </el-form-item>
                     <el-form-item label="标题">
-                        <el-input v-model="searchEntity.title" placeholder="标题"></el-input>
+                        <el-input v-model="searchEntity.name" placeholder="标题"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button
@@ -74,8 +74,8 @@
                 </div>
                 <!-- 列表 -->
                 <el-table
-                        ref="goods"
-                        :data="goods"
+                        ref="commodity"
+                        :data="commodity"
                         border
                         tooltip-effect="dark"
                         style="width: 100%"
@@ -103,13 +103,13 @@
                     </el-table-column>
                     <el-table-column
                             align="center"
-                            prop="brand"
+                            prop="brandName"
                             label="商品品牌"
                             width="150">
                     </el-table-column>
                     <el-table-column
                             align="center"
-                            prop="title"
+                            prop="name"
                             sortable
                             label="商品标题"
                             width="260"
@@ -185,9 +185,9 @@
                :close-on-press-escape="false">
         <el-form class="editor-form" :model="editor" status-icon ref="editor"
                  label-width="100px">
-            <el-form-item prop="title" label="商品标题" class="is-required"
+            <el-form-item prop="name" label="商品标题" class="is-required"
                           :rules="[{ required: true, message: '商品标题不能为空'}]">
-                <el-input v-model="editor.title" placeholder="商品标题"
+                <el-input v-model="editor.name" placeholder="商品标题"
                           auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item prop="price" label="商品价格" class="is-required"
@@ -202,7 +202,7 @@
                         multiple
                         name="picture"
                         list-type="picture-card"
-                        :limit="1"
+                        :limit="4"
                         :on-exceed="onExceed"
                         :file-list="fileList"
                         :before-upload="beforeUpload"
@@ -215,9 +215,9 @@
                     <img width="100%" :src="dialogImageUrl" alt="">
                 </el-dialog>
             </el-form-item>
-            <el-form-item prop="brand" label="商品品牌" class="is-required"
+            <el-form-item prop="brandName" label="商品品牌" class="is-required"
                           :rules="[{ required: true, message: '商品品牌不能为空'}]">
-                <el-input v-model="editor.brand" placeholder="商品品牌"
+                <el-input v-model="editor.brandName" placeholder="商品品牌"
                           auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
@@ -232,9 +232,9 @@
                :close-on-press-escape="false">
         <el-form class="editor-form" :model="editor" status-icon ref="editor"
                  label-width="100px">
-            <el-form-item prop="title" label="商品标题" class="is-required"
+            <el-form-item prop="name" label="商品标题" class="is-required"
                           :rules="[{ required: true, message: '商品标题不能为空'}]">
-                <el-input v-model="editor.title" placeholder="商品标题"
+                <el-input v-model="editor.name" placeholder="商品标题"
                           auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item prop="price" label="商品价格" class="is-required"
@@ -249,7 +249,7 @@
                         multiple
                         name="picture"
                         list-type="picture-card"
-                        :limit="1"
+                        :limit="4"
                         :on-exceed="onExceed"
                         :file-list="fileList"
                         :before-upload="beforeUpload"
@@ -262,9 +262,9 @@
                     <img width="100%" :src="dialogImageUrl" alt="">
                 </el-dialog>
             </el-form-item>
-            <el-form-item prop="brand" label="商品品牌" class="is-required"
+            <el-form-item prop="brandName" label="商品品牌" class="is-required"
                           :rules="[{ required: true, message: '商品品牌不能为空'}]">
-                <el-input v-model="editor.brand" placeholder="商品品牌"
+                <el-input v-model="editor.brandName" placeholder="商品品牌"
                           auto-complete="off"></el-input>
             </el-form-item>
         </el-form>
@@ -280,5 +280,5 @@
 <script type="text/javascript" th:src="@{../../lib/element-ui/lib/index.js}"></script>
 <script type="text/javascript" th:src="@{../../lib/vue/vue-resource.js}"></script>
 <script type="text/javascript" th:src="@{../../lib/vue/vuex.min.js}"></script>
-<script type="text/javascript" th:src="@{../../js/goods.js}"></script>
+<script type="text/javascript" th:src="@{../../js/commodity.js}"></script>
 </html>

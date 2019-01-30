@@ -39,3 +39,7 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+#生产环境禁用，设置为false即可
+swagger:
+  enable: true

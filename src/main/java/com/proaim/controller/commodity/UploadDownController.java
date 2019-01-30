@@ -1,4 +1,4 @@
-package com.proaim.controller.goods;
+package com.proaim.controller.commodity;
 
 import com.proaim.entity.Result;
 import lombok.extern.slf4j.Slf4j;

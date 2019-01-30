@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.proaim.mapper.CommodityMapper">
+    <resultMap id="baseMap" type="com.proaim.entity.Commodity">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="brandId" column="brand_id" jdbcType="INTEGER"/>
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL" javaType="java.math.BigDecimal"/>
+        <result property="orderCommodity" column="order_commodity" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result property="enabled" column="enabled" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 查询所有商品 -->
+    <select id="listCommodity" resultMap="baseMap">
+        SELECT * FROM tb_commodity
+    </select>
+
+    <!-- 条件查询商品 -->
+    <!-- MySQL CONCAT()返回结果为连接参数产生的字符串。如有任何一个参数为NULL ，则返回值为 NULL。(使用like时使用,防止S QL注入) -->
+    <select id="getByPage" parameterType="com.proaim.entity.Commodity" resultType="com.proaim.entity.Commodity">
+        SELECT DISTINCT
+        tb_commodity.id,
+        tb_commodity.price,
+        tb_commodity.name,
+        tb_brand.name AS brandName,
+        tb_commodity_image.url as image
+        FROM
+        tb_commodity,
+        tb_brand,
+        tb_commodity_image
+        WHERE
+        tb_commodity.brand_id = tb_brand.id
+        AND tb_commodity.id = tb_commodity_image.commodity_id
+        <if test="name != null">
+            AND tb_commodity.name LIKE CONCAT('%',#{name},'%')
+        </if>
+        <if test="brandName != null">
+            AND tb_brand.name LIKE CONCAT('%',#{brandName},'%')
+        </if>
+    </select>
+
+    <!-- 根据id查询商品 -->
+    <select id="getCommodityById" parameterType="Long" resultMap="baseMap">
+        SELECT * FROM tb_commodity WHERE id = #{id}
+    </select>
+
+    <!-- 根据Name查询商品 -->
+    <select id="getCommodityByName" parameterType="String" resultMap="baseMap">
+        SELECT * FROM tb_commodity WHERE name = #{name}
+    </select>
+
+    <!-- 添加商品 -->
+    <insert id="saveCommodity" parameterType="com.proaim.entity.Commodity">
+        INSERT INTO tb_commodity(brand_id, category_id, name, description,price,detail,order_commodity)
+        VALUES(#{brandId}, #{categoryId}, #{name}, #{description}, #{price}, #{detail}, #{orderCommodity})
+    </insert>
+
+    <!-- 删除 -->
+    <update id="removeCommodity" parameterType="Long">
+        UPDATE tb_commodity SET enabled = 0 WHERE id = #{id}
+    </update>
+
+    <!-- 更新数据 -->
+    <update id="updateCommodity" parameterType="com.proaim.entity.Commodity">
+        UPDATE tb_commodity
+        <set>
+            <if test="brandId != null">
+                brand_id = #{brandId},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="detail != null">
+                detail = #{detail},
+            </if>
+            <if test="orderCommodity != null">
+                order_commodity = #{orderCommodity},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -23,10 +23,10 @@ public class HomeController {
     /**
      * 商品列表页
      *
-     * @return View templates/site/goods.html
+     * @return View templates/site/commodity.html
      */
-    @GetMapping(value = {"/goods"})
+    @GetMapping(value = {"/commodity"})
     public String user() {
-        return "site/goods";
+        return "site/commodity";
     }
 }

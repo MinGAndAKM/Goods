@@ -1,7 +1,6 @@
 package com.proaim.mapper;
 
 import com.proaim.entity.User;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -10,15 +9,15 @@ import java.util.List;
  */
 public interface UserMapper {
 
-    List<User> findAll();
+    List<User> listUser();
 
-    List<User> findById(Long id);
+    User getUserById(Long id);
 
-    User findByName(String name);
+    User getUserByName(String name);
 
-    void createUser(User user);
+    void saveUser(User user);
 
-    void deleteUser(Long id);
+    void removeUser(Long id);
 
     void updateUser(User user);
 }

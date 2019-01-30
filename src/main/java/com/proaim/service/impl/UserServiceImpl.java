@@ -17,34 +17,34 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User findByName(String name) {
-        return userMapper.findByName(name);
+    public User getObjectByName(String name) {
+        return userMapper.getUserByName(name);
     }
 
     @Override
-    public List<User> findAll() {
-        return userMapper.findAll();
+    public List<User> listObjects() {
+        return userMapper.listUser();
     }
 
     @Override
-    public List<User> findById(Long id) {
-        return userMapper.findById(id);
+    public User getObjectById(Long id) {
+        return userMapper.getUserById(id);
     }
 
     @Override
-    public void create(User user) {
-        userMapper.createUser(user);
+    public void saveObject(User user) {
+        userMapper.saveUser(user);
     }
 
     @Override
-    public void delete(Long... ids) {
+    public void removeObjects(Long... ids) {
         for (Long id : ids) {
-            userMapper.deleteUser(id);
+            userMapper.removeUser(id);
         }
     }
 
     @Override
-    public void update(User user) {
+    public void updateObject(User user) {
         userMapper.updateUser(user);
     }
 }

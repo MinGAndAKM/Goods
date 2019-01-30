@@ -11,20 +11,21 @@ var vm = new Vue({
     data() {
         return {
             //element-ui的table需要的参数必须是Array类型的
-            goods: [{
+            commodity: [{
                 id: '',
-                title: '',
+                name: '',
                 price: '',
                 image: '',
-                brand: ''
+                brandName: ''
             }],
 
             //编辑表
             editor: {
-                title: '',
+                id: '',
+                name: '',
                 price: '',
                 image: '',
-                brand: ''
+                brandName: ''
             },
             //添加dialog
             showSave: false,
@@ -85,9 +86,9 @@ var vm = new Vue({
         //条件查询
         search(pageCode, pageSize) {
             this.loadings();
-            this.$http.post('/goods/findByConPage?pageSize=' + pageSize + '&pageCode=' + pageCode, this.searchEntity).then(result => {
+            this.$http.post('/commodity/getByConPage?pageSize=' + pageSize + '&pageCode=' + pageCode, this.searchEntity).then(result => {
                 console.log(result);
-                this.goods = result.body.rows;
+                this.commodity = result.body.rows;
                 this.pageConf.totalPage = result.body.total;
                 this.loading.close(); //数据更新成功就手动关闭动画
             });
@@ -100,7 +101,7 @@ var vm = new Vue({
         },
         //清空已选择的
         clearSelect() {
-            this.$refs.goods.clearSelection();
+            this.$refs.commodity.clearSelection();
         },
         //pageSize改变时触发的函数
         handleSizeChange(val) {
@@ -116,7 +117,7 @@ var vm = new Vue({
             //关闭对话框
             this.showEditor = false;
             //调用更新数据的接口
-            this.$http.post('/goods/update', JSON.stringify(this.editor)).then(result => {
+            this.$http.post('/commodity/update', JSON.stringify(this.editor)).then(result => {
                 if (result.body.success) {
                     //更新成功
                     this.$message({
@@ -126,7 +127,7 @@ var vm = new Vue({
                     });
                     //刷新列表
                     this.reloadList();
-                    this.goods = [];
+                    this.commodity = [];
                     this.$refs.editor.resetFields();
                 } else {
                     //更新失败
@@ -150,7 +151,7 @@ var vm = new Vue({
                 center: true
             }).then(() => {
                 //调用删除的接口(这里必须将数据转换成JSON格式，不然接收不到值，并且后端要用@RequestBody注解标识)
-                this.$http.post('/goods/delete', JSON.stringify(ids)).then(result => {
+                this.$http.post('/commodity/remove', JSON.stringify(ids)).then(result => {
                     if (result.body.success) {
                         //删除成功
                         this.selectIds = []; //清空选项
@@ -195,7 +196,7 @@ var vm = new Vue({
                     //关闭dialog
                     this.showSave = false;
                     //调用保存的接口
-                    this.$http.post('/goods/create', JSON.stringify(this.editor)).then(result => {
+                    this.$http.post('/commodity/save', JSON.stringify(this.editor)).then(result => {
                         if (result.body.success) {
                             //保存成功
                             this.$message({
@@ -257,7 +258,7 @@ var vm = new Vue({
             this.showEditor = true;
             this.editor = {}; //清空表单
             //查询当前id对应的数据
-            this.$http.post('/goods/findById', {id: id}).then(result => {
+            this.$http.post('/commodity/findById', {id: id}).then(result => {
                 this.fileList.forEach(row => {
                     row.url = result.body[0].image; //将图片的URL地址赋值给file-list展示出来
                 });
@@ -309,12 +310,12 @@ var vm = new Vue({
             if (rows) {
                 rows.forEach(row => {
                     this.selectIds.push(row.id);
-                    this.$refs.goods.toggleRowSelection(row);
+                    this.$refs.commodity.toggleRowSelection(row);
                 });
                 //调用删除方法
                 this.sureDelete(this.selectIds);
             } else {
-                this.$refs.goods.clearSelection();
+                this.$refs.commodity.clearSelection();
             }
         },
 
