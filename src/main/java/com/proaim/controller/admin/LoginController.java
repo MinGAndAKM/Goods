@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @Controller
-@Api(tags = "用户控制器")
+@Api(tags = "登录控制器")
 public class LoginController {
     @Autowired
     private UserService userService;
@@ -36,12 +36,12 @@ public class LoginController {
      * @return 登录状态
      */
     @ResponseBody
-    @RequestMapping("/login")
+    @PostMapping("/login")
+    @ApiOperation(value = "登录函数", notes = "返回登录状态")
     public Result login(@RequestParam("username") String username, @RequestParam("password") String password) {
-        log.info("UserName：" + username + "，PassWord：" + password);
         User user = userService.getObjectByName(username);
         //TODO! 密码未加密
-        if (!StringUtils.isEmpty(user) && user.getPassword().equals(password)) {
+        if (!(user == null && StringUtils.isEmpty(user.getUsername()) && StringUtils.isEmpty(user.getPassword())) && user.getPassword().equals(password)) {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             attributes.getRequest().getSession().setAttribute("user", user);// 将登陆用户信息存入到session域对象中
             return new Result(true, username);
@@ -56,6 +56,7 @@ public class LoginController {
      * @return View templates/home/login.html
      */
     @GetMapping("/logout")
+    @ApiOperation(value = "注销用户", notes = "返回登录页面")
     public String logout() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         attributes.getRequest().getSession().removeAttribute("user");
@@ -70,10 +71,12 @@ public class LoginController {
      * @return 注册状态
      */
     @ResponseBody
-    @RequestMapping("/register")
+    @PostMapping("/register")
+    @ApiOperation(value = "注册用户", notes = "保存数据")
     public Result register(@RequestParam("username") String username, @RequestParam("password") String password) {
         try {
-            if (StringUtils.isEmpty(userService.getObjectByName(username))) {
+            //TODO! 密码未加密
+            if (userService.getObjectByName(username) == null && !username.isEmpty() && !password.isEmpty()) {
                 userService.saveObject(new User(username, password));
             } else {
                 return new Result(false, "该用户名已被注册，请使用其他用户名");
@@ -84,8 +87,8 @@ public class LoginController {
             return new Result(true, username);
         } catch (Exception e) {
             e.printStackTrace();
+            return new Result(false, "发生未知错误");
         }
-        return new Result(false, "发生未知错误");
     }
 
     /**
@@ -94,6 +97,7 @@ public class LoginController {
      * @return View templates/home/login.html
      */
     @GetMapping("/login")
+    @ApiOperation(value = "登录页面")
     public String login() {
         return "home/login";
     }
@@ -104,6 +108,7 @@ public class LoginController {
      * @return View templates/home/register.html
      */
     @GetMapping("/register")
+    @ApiOperation(value = "注册页面")
     public String register() {
         return "home/register";
     }

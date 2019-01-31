@@ -25,7 +25,7 @@ public class MyInterceptor {
 
     // @Pointcut放在方法头上，定义一个可被别的方法引用的切入点表达式。
     // within 指定某些类型的全部方法执行，也可用来指定一个包。
-    @Pointcut("within (com.proaim.controller..*) && !within(com.proaim.controller.admin.LoginController)")
+    /*@Pointcut("within (com.proaim.controller..*) && !within(com.proaim.controller.admin.LoginController)")
     public void pointCut() {
 
     }
@@ -47,5 +47,5 @@ public class MyInterceptor {
         // 切记一定要调用proceed()方法
         // proceed()：执行被通知的方法，如不调用将会阻止被通知的方法的调用，也就导致Controller中的return会404
         return joinPoint.proceed();
-    }
+    }*/
 }

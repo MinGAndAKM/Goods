@@ -1,70 +1,64 @@
 package com.proaim.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.proaim.entity.Commodity;
-import com.proaim.entity.PageBean;
-import com.proaim.mapper.CommodityMapper;
-import com.proaim.service.CommodityService;
+import com.proaim.entity.CommodityImage;
+import com.proaim.mapper.CommodityImageMapper;
+import com.proaim.service.CommodityImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 
 /**
- * @date 2019/1/30
+ * @date 2019/1/31
  */
 @Service
-public class CommodityServiceImpl implements CommodityService {
+public class CommodityImageServiceImpl implements CommodityImageService {
     @Autowired
-    private CommodityMapper commodityMapper;
+    private CommodityImageMapper commodityImageMapper;
 
-    /**
-     * 分页查询
-     *
-     * @param commodity 查询条件
-     * @param pageCode  当前页码
-     * @param pageSize  每页显示记录数
-     * @return PageBean 将当前页数及每页记录数返回
-     */
     @Override
-    public PageBean getByPageBean(Commodity commodity, Integer pageCode, Integer pageSize) {
-        if (commodity != null && pageCode != null && pageSize != null) {
-            // 使用MyBatis插件
-            PageHelper.startPage(pageCode, pageSize);
-            // 调用分页查询方法，其实就是查询所有数据，MyBatis自动帮我们进行分页计算
-            Page<Commodity> page = commodityMapper.getByPage(commodity);
-            return new PageBean(page.getTotal(), page.getResult());
+    public List<CommodityImage> getCommodityImageByCommodityId(Long commodityId) {
+        if (commodityId != null) {
+            return commodityImageMapper.getCommodityImageByCommodityId(commodityId);
         } else {
             return null;
         }
     }
 
     @Override
-    public List<Commodity> listObjects() {
-        return commodityMapper.listCommodity();
+    @Transactional(rollbackFor = Exception.class)
+    public void removeCommodityImageByCommodityId(Long... ids) {
+        try {
+            if (ids != null) {
+                for (Long id : ids) {
+                    commodityImageMapper.removeCommodityImageByCommodityId(id);
+                }
+            }
+        } catch (Exception e) {
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public Commodity getObjectById(Long id) {
+    public List<CommodityImage> listObjects() {
+        return commodityImageMapper.listCommodityImage();
+    }
+
+    @Override
+    public CommodityImage getObjectById(Long id) {
         if (id != null) {
-            return commodityMapper.getCommodityById(id);
+            return commodityImageMapper.getCommodityImageById(id);
         } else {
             return null;
         }
     }
 
     @Override
-    public Commodity getObjectByName(String name) {
-        if (!StringUtils.isEmpty(name)) {
-            return commodityMapper.getCommodityByName(name);
-        } else {
-            return null;
-        }
-
+    public CommodityImage getObjectByName(String name) {
+        return null;
     }
 
     @Override
@@ -80,10 +74,10 @@ public class CommodityServiceImpl implements CommodityService {
      * Transactional是否生效, 仅取决于是否加载于接口方法, 并且是否通过接口方法调用(而不是本类调用)。
      */
     @Transactional(rollbackFor = Exception.class)
-    public void saveObject(Commodity commodity) {
+    public void saveObject(CommodityImage commodityImage) {
         try {
-            if (commodity != null) {
-                commodityMapper.saveCommodity(commodity);
+            if (commodityImage != null) {
+                commodityImageMapper.saveCommodityImage(commodityImage);
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -97,26 +91,25 @@ public class CommodityServiceImpl implements CommodityService {
         try {
             if (ids != null) {
                 for (Long id : ids) {
-                    commodityMapper.removeCommodity(id);
+                    commodityImageMapper.removeCommodityImage(id);
                 }
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
         }
+
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateObject(Commodity commodity) {
+    public void updateObject(CommodityImage commodityImage) {
         try {
-            if (commodity != null) {
-                commodityMapper.updateCommodity(commodity);
+            if (commodityImage != null) {
+                commodityImageMapper.updateCommodityImage(commodityImage);
             }
         } catch (Exception e) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
         }
-
     }
 }

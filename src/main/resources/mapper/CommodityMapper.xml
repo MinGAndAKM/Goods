@@ -27,15 +27,13 @@
         tb_commodity.id,
         tb_commodity.price,
         tb_commodity.name,
-        tb_brand.name AS brandName,
-        tb_commodity_image.url as image
+        tb_brand.name AS brandName
         FROM
         tb_commodity,
-        tb_brand,
-        tb_commodity_image
+        tb_brand
         WHERE
         tb_commodity.brand_id = tb_brand.id
-        AND tb_commodity.id = tb_commodity_image.commodity_id
+        AND tb_commodity.enabled = 1
         <if test="name != null">
             AND tb_commodity.name LIKE CONCAT('%',#{name},'%')
         </if>
@@ -46,12 +44,12 @@
 
     <!-- 根据id查询商品 -->
     <select id="getCommodityById" parameterType="Long" resultMap="baseMap">
-        SELECT * FROM tb_commodity WHERE id = #{id}
+        SELECT * FROM tb_commodity WHERE id = #{id} AND enabled = 1
     </select>
 
     <!-- 根据Name查询商品 -->
     <select id="getCommodityByName" parameterType="String" resultMap="baseMap">
-        SELECT * FROM tb_commodity WHERE name = #{name}
+        SELECT * FROM tb_commodity WHERE name = #{name} AND enabled = 1
     </select>
 
     <!-- 添加商品 -->
@@ -89,6 +87,9 @@
             </if>
             <if test="orderCommodity != null">
                 order_commodity = #{orderCommodity},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled}
             </if>
         </set>
         WHERE id = #{id}

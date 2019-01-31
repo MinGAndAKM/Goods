@@ -9,12 +9,12 @@
 
     <!-- 根据用户ID查询 -->
     <select id="getUserById" resultType="com.proaim.entity.User" parameterType="Long">
-        SELECT * FROM tb_user WHERE id = #{id}
+        SELECT * FROM tb_user WHERE id = #{id} AND enabled = 1
     </select>
 
     <!-- 根据用户名查询 -->
     <select id="getUserByName" resultType="com.proaim.entity.User" parameterType="String">
-        SELECT * FROM tb_user WHERE username = #{username}
+        SELECT * FROM tb_user WHERE username = #{username} AND enabled = 1
     </select>
 
     <!-- 注册用户 -->
@@ -36,6 +36,9 @@
         </if>
         <if test="password != null">
             password = #{password}
+        </if>
+        <if test="enabled != null">
+            enabled = #{enabled}
         </if>
     </update>
 </mapper>

@@ -1,8 +1,8 @@
 package com.proaim.service.impl;
 
-import com.proaim.entity.User;
-import com.proaim.mapper.UserMapper;
-import com.proaim.service.UserService;
+import com.proaim.entity.Brand;
+import com.proaim.mapper.BrandMapper;
+import com.proaim.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,31 +12,31 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 /**
- * @date 2019/1/24
+ * @date 2019/1/31
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class BrandServiceImpl implements BrandService {
     @Autowired
-    private UserMapper userMapper;
+    private BrandMapper brandMapper;
 
     @Override
-    public User getObjectByName(String name) {
-        if (!StringUtils.isEmpty(name)) {
-            return userMapper.getUserByName(name);
+    public List<Brand> listObjects() {
+        return brandMapper.listBrand();
+    }
+
+    @Override
+    public Brand getObjectById(Long id) {
+        if (id != null) {
+            return brandMapper.getBrandById(id);
         } else {
             return null;
         }
     }
 
     @Override
-    public List<User> listObjects() {
-        return userMapper.listUser();
-    }
-
-    @Override
-    public User getObjectById(Long id) {
-        if (id != null) {
-            return userMapper.getUserById(id);
+    public Brand getObjectByName(String name) {
+        if (!StringUtils.isEmpty(name)) {
+            return brandMapper.getBrandByName(name);
         } else {
             return null;
         }
@@ -44,10 +44,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveObject(User user) {
+    public void saveObject(Brand brand) {
         try {
-            if (user != null) {
-                userMapper.saveUser(user);
+            if (brand != null) {
+                brandMapper.saveBrand(brand);
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -61,22 +61,21 @@ public class UserServiceImpl implements UserService {
         try {
             if (ids != null) {
                 for (Long id : ids) {
-                    userMapper.removeUser(id);
+                    brandMapper.removeBrand(id);
                 }
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
         }
-
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateObject(User user) {
+    public void updateObject(Brand brand) {
         try {
-            if (user != null) {
-                userMapper.updateUser(user);
+            if (brand != null) {
+                brandMapper.updateBrand(brand);
             }
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

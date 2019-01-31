@@ -1,6 +1,8 @@
 package com.proaim.controller.commodity;
 
 import com.proaim.entity.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import java.util.Date;
  */
 @Slf4j
 @RestController
+@Api(tags = "图片控制器")
 public class UploadDownController {
     /**
      * 文件上传
@@ -30,6 +33,7 @@ public class UploadDownController {
      * @return
      */
     @RequestMapping("/upload")
+    @ApiOperation(value = "图片上传")
     public Result upload(@RequestParam("picture") MultipartFile picture, HttpServletRequest request) {
         // 获取文件在服务器的储存位置（绝对路径）
         String path = request.getSession().getServletContext().getRealPath("/upload");
