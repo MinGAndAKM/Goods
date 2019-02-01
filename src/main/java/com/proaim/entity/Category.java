@@ -1,23 +1,85 @@
 package com.proaim.entity;
 
-import lombok.Data;
-
 import java.io.Serializable;
-import java.math.BigInteger;
-import java.sql.Timestamp;
+import java.util.Date;
 
-/**
- * 商品分类总表
- *
- * @date 2019/1/29
- */
-@Data
 public class Category implements Serializable {
-    private BigInteger id; // 分类ID
-    private String name; // 分类名称
-    private Integer parent_id; // 父分类id
-    private Timestamp create_time;
-    private Timestamp update_time;
-    private Integer enabled; // 是否删除，默认为1
+    private Long id;
 
+    private String name;
+
+    private Short parentId;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    private Boolean enabled;
+
+    private static final long serialVersionUID = 1L;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Short getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Short parentId) {
+        this.parentId = parentId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", name=").append(name);
+        sb.append(", parentId=").append(parentId);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", enabled=").append(enabled);
+        sb.append(", serialVersionUID=").append(serialVersionUID);
+        sb.append("]");
+        return sb.toString();
+    }
 }
