@@ -6,6 +6,10 @@ spring:
   profiles:
     active: dev
 
+  # 设置时区为东八区
+  jackson:
+    time-zone: GMT+8
+
   thymeleaf:
     prefix: classpath:/templates/
     check-template-location: true

@@ -27,9 +27,11 @@ public class CommodityTypesController {
         try {
             if (commodityTypes == null) {
                 return new Result(false, "发生未知错误");
+            } else {
+                commodityTypesService.insertSelective(commodityTypes);
+                return new Result(true, "保存分类成功");
             }
-            commodityTypesService.insertSelective(commodityTypes);
-            return new Result(true, "保存分类成功");
+
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "发生未知错误");
@@ -57,8 +59,12 @@ public class CommodityTypesController {
     @PutMapping("/types")
     public Result update(CommodityTypes commodityTypes) {
         try {
-            commodityTypesService.updateByPrimaryKeySelective(commodityTypes);
-            return new Result(true, "更新分类成功");
+            if (commodityTypes.getTypeId() == null) {
+                return new Result(false, "发生未知错误");
+            } else {
+                commodityTypesService.updateByPrimaryKeySelective(commodityTypes);
+                return new Result(true, "更新分类成功");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new Result(false, "发生未知错误");
@@ -77,8 +83,9 @@ public class CommodityTypesController {
         try {
             if (typeId == null) {
                 return null;
+            } else {
+                return commodityTypesService.selectByPrimaryKey(typeId);
             }
-            return commodityTypesService.selectByPrimaryKey(typeId);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

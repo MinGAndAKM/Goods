@@ -1,27 +1,31 @@
 package com.proaim.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@ApiModel("轮播图片模型实体类")
 public class CarouselImage implements Serializable {
+    @ApiModelProperty("轮播图片ID")
     private Long id;
-
+    @ApiModelProperty("轮播ID")
     private Long carouselId;
-
+    @ApiModelProperty("轮播图片名称")
     private String name;
-
+    @ApiModelProperty("轮播图片宽度")
     private Double width;
-
+    @ApiModelProperty("轮播图片高度")
     private Double height;
-
+    @ApiModelProperty("轮播图片类型")
     private String format;
-
+    @ApiModelProperty("轮播图片地址")
     private String url;
-
     private Date createTime;
 
     private Date updateTime;
-
+    @ApiModelProperty(name = "enabled", value = "删除标记(默认：1)")
     private Boolean enabled;
 
     private static final long serialVersionUID = 1L;

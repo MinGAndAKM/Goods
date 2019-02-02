@@ -2,8 +2,9 @@ package com.proaim.mapper;
 
 import com.proaim.entity.CarouselImage;
 import com.proaim.entity.CarouselImageExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CarouselImageMapper {
     long countByExample(CarouselImageExample example);
@@ -27,4 +28,6 @@ public interface CarouselImageMapper {
     int updateByPrimaryKeySelective(CarouselImage record);
 
     int updateByPrimaryKey(CarouselImage record);
+
+    List<CarouselImage> selectByCarouselId(Long carouselId);
 }

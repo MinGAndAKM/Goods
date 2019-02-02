@@ -1,8 +1,9 @@
 package com.proaim.service.impl;
 
-import com.proaim.entity.Category;
-import com.proaim.mapper.CategoryMapper;
-import com.proaim.service.CategoryService;
+import com.proaim.entity.Carousel;
+import com.proaim.entity.CarouselExample;
+import com.proaim.mapper.CarouselMapper;
+import com.proaim.service.CarouselService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,18 +13,18 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.util.List;
 
 /**
- * @date 2019/2/1
+ * @date 2019/2/2
  */
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class CarouselServiceImpl implements CarouselService {
     @Autowired
-    private CategoryMapper categoryMapper;
+    private CarouselMapper carouselMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int deleteByPrimaryKey(Object o) {
         try {
-            return categoryMapper.deleteByPrimaryKey((Long) o);
+            return carouselMapper.deleteByPrimaryKey((Long) o);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
@@ -32,20 +33,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public int delete(Category category) {
+    public int delete(Carousel carousel) {
         return 0;
     }
 
     @Override
-    public int insert(Category category) {
+    public int insert(Carousel carousel) {
         return 0;
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int insertSelective(Category category) {
+    public int insertSelective(Carousel carousel) {
         try {
-            return categoryMapper.insertSelective(category);
+            return carouselMapper.insertSelective(carousel);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
@@ -59,40 +59,43 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> selectAll() {
-        return categoryMapper.selectByExample(null);
+    public List<Carousel> selectAll() {
+        CarouselExample carouselExample = new CarouselExample();
+        carouselExample.setOrderByClause("`order_commodity` ASC,id ASC");
+        // 查询结果优先按照字段1排序，若Number相同，则按id排序
+        return carouselMapper.selectByExample(carouselExample);
     }
 
     @Override
-    public Category selectByPrimaryKey(Object o) {
-        return categoryMapper.selectByPrimaryKey((Long) o);
+    public Carousel selectByPrimaryKey(Object o) {
+        return carouselMapper.selectByPrimaryKey((Long) o);
     }
 
     @Override
-    public int selectCount(Category category) {
+    public int selectCount(Carousel carousel) {
         return 0;
     }
 
     @Override
-    public List<Category> select(Category category) {
+    public List<Carousel> select(Carousel carousel) {
         return null;
     }
 
     @Override
-    public Category selectOne(Category category) {
+    public Carousel selectOne(Carousel carousel) {
         return null;
     }
 
     @Override
-    public int updateByPrimaryKey(Category category) {
+    public int updateByPrimaryKey(Carousel carousel) {
         return 0;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateByPrimaryKeySelective(Category category) {
+    public int updateByPrimaryKeySelective(Carousel carousel) {
         try {
-            return categoryMapper.updateByPrimaryKeySelective(category);
+            return carouselMapper.updateByPrimaryKeySelective(carousel);
         } catch (Exception e) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             e.printStackTrace();
@@ -106,7 +109,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> selectByExample(Object o) {
+    public List<Carousel> selectByExample(Object o) {
         return null;
     }
 
@@ -116,27 +119,27 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category selectOneByExample(Object o) {
+    public Carousel selectOneByExample(Object o) {
         return null;
     }
 
     @Override
-    public int updateByExample(Category category, Object o) {
+    public int updateByExample(Carousel carousel, Object o) {
         return 0;
     }
 
     @Override
-    public int updateByExampleSelective(Category category, Object o) {
+    public int updateByExampleSelective(Carousel carousel, Object o) {
         return 0;
     }
 
     @Override
-    public List<Category> selectByExampleAndRowBounds(Object o, RowBounds rowBounds) {
+    public List<Carousel> selectByExampleAndRowBounds(Object o, RowBounds rowBounds) {
         return null;
     }
 
     @Override
-    public List<Category> selectByRowBounds(Category category, RowBounds rowBounds) {
+    public List<Carousel> selectByRowBounds(Carousel carousel, RowBounds rowBounds) {
         return null;
     }
 }

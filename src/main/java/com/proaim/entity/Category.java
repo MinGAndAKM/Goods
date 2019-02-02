@@ -1,19 +1,24 @@
 package com.proaim.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.Date;
 
+@ApiModel("总分类模型实体类")
 public class Category implements Serializable {
+    @ApiModelProperty(name = "id", value = "总分类ID")
     private Long id;
-
+    @ApiModelProperty(name = "name", value = "总分类名称")
     private String name;
-
+    @ApiModelProperty(name = "parentId", value = "父分类ID")
     private Short parentId;
-
+    @ApiModelProperty(name = "createTime", value = "创建时间")
     private Date createTime;
-
+    @ApiModelProperty(name = "updateTime", value = "修改时间")
     private Date updateTime;
-
+    @ApiModelProperty(name = "enabled", value = "删除标记(默认：1)")
     private Boolean enabled;
 
     private static final long serialVersionUID = 1L;
